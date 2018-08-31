@@ -13,5 +13,5 @@
 
 Route::get('/', 'NoteController@index');
 Route::get('notes', 'NoteController@allNotes');
-
+Route::post('notes/update', 'NoteController@updateNotes');
 

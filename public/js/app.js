@@ -48053,12 +48053,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	methods: {
 		textUpdated: function textUpdated() {
+			var _this = this;
+
 			if (this.timer) {
 				clearTimeout(this.timer);
 				this.timer = null;
 			}
 			this.timer = setTimeout(function () {
-				console.log('note updated');
+				_this.$emit('note-updated');
 			}, 1000);
 		}
 	}
@@ -48257,7 +48259,7 @@ exports = module.exports = __webpack_require__(45)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -48286,7 +48288,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	mounted: function mounted() {
 		var _this = this;
 
-		var test = axios.get('/notes').then(function (res) {
+		axios.get('/notes').then(function (res) {
 			_this.notes = res.data;
 		}).catch(function (err) {
 			console.error(err);
@@ -48312,6 +48314,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var note = { id: this.notes.length + 1, title: '', body: '', selected: true };
 			this.note = note;
 			this.notes.push(note);
+		},
+		noteUpdated: function noteUpdated() {
+			console.log('updated');
+			axios.post('/notes/update', this.notes).then(function (res) {
+				console.log(res);
+				// this.notes = res.data;
+			}).catch(function (err) {
+				console.error(err);
+			});
 		}
 	}
 
@@ -48337,7 +48348,10 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("editable-area", { attrs: { note: _vm.note } })
+      _c("editable-area", {
+        attrs: { note: _vm.note },
+        on: { "note-updated": _vm.noteUpdated }
+      })
     ],
     1
   )

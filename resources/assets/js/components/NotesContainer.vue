@@ -1,7 +1,7 @@
 <template>
 	<div class="row">
 		<note-list :notes="notes" @update-selected="updateSelected" @note-added="noteAdded"></note-list>
-		<editable-area :note="note"></editable-area>
+		<editable-area :note="note" @note-updated="noteUpdated"></editable-area>
 	</div>
 </template>
 
@@ -19,7 +19,7 @@
 			}
 		},
 		mounted(){
-			let test = axios.get('/notes')
+			axios.get('/notes')
 			.then((res) => {
 				this.notes = res.data;
 			})
@@ -46,6 +46,17 @@
 				const note = {id: this.notes.length + 1, title: '', body: '', selected: true};
 				this.note = note;
 				this.notes.push(note);
+			},
+			noteUpdated(){
+				console.log('updated');
+				axios.post('/notes/update', this.notes)
+				.then((res) => {
+					console.log(res);
+					// this.notes = res.data;
+				})
+				.catch((err) => {
+					console.error(err)
+				})
 			}
 		}
 		

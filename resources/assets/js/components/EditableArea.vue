@@ -20,7 +20,7 @@
 					this.timer = null;
 				}
 				this.timer = setTimeout(() => {
-					console.log('note updated');
+					this.$emit('note-updated');
 				}, 1000);
 			}
 		}
