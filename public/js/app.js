@@ -48043,18 +48043,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	props: ['note'],
+	data: function data() {
+		return {
+			'timer': null
+		};
+	},
 	methods: {
-		updateTitle: function updateTitle(val) {
-			this.note.title = val;
-			// this.$emit('title-updated', {id: this.note.id, title: this.note.title})
-		},
-		updateBody: function updateBody(val) {
-			this.note.body = val;
-			// this.$emit('body-updated', {id: this.note.id, title: this.note.body})
+		textUpdated: function textUpdated() {
+			if (this.timer) {
+				clearTimeout(this.timer);
+				this.timer = null;
+			}
+			this.timer = setTimeout(function () {
+				console.log('note updated');
+			}, 1000);
 		}
 	}
 });
@@ -48415,6 +48420,7 @@ var render = function() {
       attrs: { type: "text", placeholder: "Title" },
       domProps: { value: _vm.note.title },
       on: {
+        keyup: _vm.textUpdated,
         input: function($event) {
           if ($event.target.composing) {
             return
@@ -48442,6 +48448,7 @@ var render = function() {
       attrs: { placeholder: "Enter a note" },
       domProps: { value: _vm.note.body },
       on: {
+        keyup: _vm.textUpdated,
         input: function($event) {
           if ($event.target.composing) {
             return
